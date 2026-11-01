@@ -61,8 +61,13 @@ The game uses the Forward+ renderer (Vulkan).
 ## Tests
 
 ```bash
-godot --headless --path . res://tests/test_runner.tscn
+./tools/run_tests.sh
 ```
+
+The script runs an import first. Godot resolves `class_name` types from a
+cache in `.godot/` that isn't version-controlled, so running the test scene
+directly on a fresh or stale checkout can fail with "Could not find type"
+errors.
 
 The suite covers ledger integrity, stock conservation under random
 operations, placement rules, delivery, the business clock, sound levels, a
