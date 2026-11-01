@@ -92,23 +92,33 @@ static func named(name: String) -> Material:
 
 
 static func ghost(valid: bool) -> Material:
-	## Placement preview: a calm translucent tint, not a garish neon.
+	## Placement preview: calm mint when valid, muted tomato when not.
 	var key := "ghost_%s" % valid
 	if _cache.has(key):
 		return _cache[key]
-	var m := StandardMaterial3D.new()
-	m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	m.albedo_color = Color(0.56, 0.88, 0.72, 0.42) if valid else Color(0.95, 0.4, 0.32, 0.45)
-	m.cull_mode = BaseMaterial3D.CULL_BACK
+	var m := _shader("res://shaders/ghost.gdshader")
+	m.set_shader_parameter("tint", Color(0.80, 0.93, 1.0) if valid else Color(0.95, 0.42, 0.33))
+	m.set_shader_parameter("body_alpha", 0.34)
 	_cache[key] = m
 	return m
 
 
 static func highlight() -> Material:
 	## Used as material_overlay to outline the hovered / selected object.
-	if _cache.has("highlight"):
-		return _cache["highlight"]
+	return _outline("highlight", Color(0.95, 0.70, 0.24, 1.0))
+
+
+static func hover() -> Material:
+	return _outline("hover", Color(0.96, 0.97, 0.94, 0.75))
+
+
+static func danger() -> Material:
+	return _outline("danger", Color(0.89, 0.33, 0.23, 1.0))
+
+
+static func _outline(key: String, tint: Color) -> Material:
+	if _cache.has(key):
+		return _cache[key]
 	var m := ShaderMaterial.new()
 	var sh := Shader.new()
 	sh.code = """
@@ -125,7 +135,8 @@ void fragment() {
 }
 """
 	m.shader = sh
-	_cache["highlight"] = m
+	m.set_shader_parameter("tint", tint)
+	_cache[key] = m
 	return m
 
 

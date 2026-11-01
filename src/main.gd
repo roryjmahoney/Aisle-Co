@@ -9,6 +9,12 @@ var fixtures_root: Node3D
 var views: Dictionary = {}   # uid -> FixtureView
 var wall_mode := 0           # 0 auto, 1 always up, 2 always cut
 var build_active := false
+var customers: CustomerManager
+var staff: StaffManager
+var build: BuildController
+var selection: SelectionController
+var ui: GameUI
+var van: DeliveryVan
 
 
 func _ready() -> void:
@@ -35,9 +41,33 @@ func _ready() -> void:
 	rig.ground_y = Lot.FLOOR_Y
 	rig.snap_to(Vector3(10.2, Lot.FLOOR_Y, 7.4), -24.0, 44.0, 21.0)
 
+	Sfx.init(self)
+	customers = CustomerManager.new()
+	add_child(customers)
+	staff = StaffManager.new()
+	add_child(staff)
 	StarterStore.populate()
+	staff.ensure_owner()
+	van = DeliveryVan.new()
+	add_child(van)
+	van.setup(world_info.shutter)
+
+	build = BuildController.new()
+	add_child(build)
+	build.setup(self, rig)
+	selection = SelectionController.new()
+	add_child(selection)
+	selection.setup(self, rig, build)
+	var layer := CanvasLayer.new()
+	layer.name = "UI"
+	add_child(layer)
+	ui = GameUI.new()
+	ui.setup(self, build, selection)
+	layer.add_child(ui)
+
 	Game.clock.phase_changed.connect(func(_p): _update_open_sign())
 	_update_open_sign()
+	Game.say("Welcome to your corner shop. Press Open doors when you're ready.", "info")
 
 	var cap_args := Capture.parse_args()
 	if not cap_args.is_empty():

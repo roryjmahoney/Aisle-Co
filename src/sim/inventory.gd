@@ -13,8 +13,8 @@ signal delivered(order: Dictionary)
 enum DeliveryState { ORDERED, ARRIVING, UNLOADING, DONE }
 
 const LEAD_MINUTES := 60.0
-const ARRIVE_MINUTES := 4.0    # van drives in
-const UNLOAD_MINUTES := 6.0    # cases carried in
+const ARRIVE_MINUTES := 9.0    # van drives in
+const UNLOAD_MINUTES := 10.0   # cases carried in
 
 var catalog: Catalog
 var store: Store
@@ -29,6 +29,8 @@ var total_received := 0
 var total_sold := 0
 var total_written_off := 0
 var in_baskets := 0
+## Units being carried by staff between the stockroom and a shelf.
+var in_transit := 0
 
 
 func setup(c: Catalog, s: Store, e: Economy, k: SimClock) -> void:
@@ -217,6 +219,41 @@ func pick(f: Fixture, slot: int, want: int) -> int:
 	return n
 
 
+func take_for_restock(pid: StringName, want: int) -> int:
+	## Stockroom → a stocker's arms.
+	var n := mini(want, units(pid))
+	if n <= 0:
+		return 0
+	stockroom[pid] = units(pid) - n
+	in_transit += n
+	stockroom_changed.emit()
+	return n
+
+
+func put_on_shelf(f: Fixture, slot: int, pid: StringName, want: int) -> int:
+	## A stocker's arms → shelf. Returns units placed.
+	var s := f.slots[slot]
+	if s.product != pid:
+		return 0
+	var n := mini(mini(want, s.cap - s.qty), in_transit)
+	if n <= 0:
+		return 0
+	in_transit -= n
+	s.qty += n
+	f.changed.emit(slot)
+	return n
+
+
+func return_transit(pid: StringName, n: int) -> void:
+	## Leftovers carried back to the stockroom.
+	n = mini(n, in_transit)
+	if n <= 0:
+		return
+	in_transit -= n
+	stockroom[pid] = units(pid) + n
+	stockroom_changed.emit()
+
+
 func sell_from_basket(units_sold: int) -> void:
 	assert(units_sold <= in_baskets)
 	in_baskets -= units_sold
@@ -293,7 +330,7 @@ func seed_stockroom(pid: StringName, qty: int) -> void:
 
 
 func total_units_everywhere() -> int:
-	var n := in_baskets
+	var n := in_baskets + in_transit
 	for pid in stockroom:
 		n += stockroom[pid]
 	for f in store.fixtures.values():

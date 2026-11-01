@@ -59,6 +59,36 @@ func new_world() -> void:
 	reputation = 0.5
 	speed = 1
 	_acc = 0.0
+	clock.phase_changed.connect(_on_phase)
+
+
+func _on_phase(p: int) -> void:
+	match p:
+		SimClock.Phase.OPEN:
+			say("Doors open — welcome in!", "positive")
+		SimClock.Phase.CLOSING:
+			say("Closing time. Serving the last shoppers…", "info")
+		SimClock.Phase.CLOSED:
+			_close_day()
+
+
+func _close_day() -> void:
+	var wages: int = staff.wages_per_day() if staff else 0
+	var r := economy.close_day(store.upkeep(), wages)
+	r["reputation"] = reputation
+	var err := inventory.audit()
+	if err != "":
+		push_error("Inventory audit failed at close: " + err)
+	day_report_ready.emit(r)
+
+
+func start_next_day() -> void:
+	clock.start_next_day()
+	economy.start_day(clock.day)
+	if settings.get_value("autosave"):
+		var err := SaveManager.save("slot1")
+		if err != "":
+			say(err, "warning")
 
 
 func _process(delta: float) -> void:

@@ -679,9 +679,12 @@ func _props() -> void:
 		blocked.append(Vector2i(x, row))
 	for x in range(8, 22):
 		blocked.append(Vector2i(x, Lot.FRONT_Z + 1))
+	# Through occupy() so the navigation graph is relinked around them.
+	var valid: Array[Vector2i] = []
 	for c in blocked:
-		if grid.in_bounds(c):
-			grid.occupant[grid.idx(c)] = Lot.STATIC_UID
+		if grid.in_bounds(c) and grid.is_free(c):
+			valid.append(c)
+	grid.occupy(valid, Lot.STATIC_UID)
 
 
 func _street_lamp(k: MeshKit, base: Vector3) -> void:

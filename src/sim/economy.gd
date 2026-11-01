@@ -110,6 +110,33 @@ func _post(kind: int, amount: int, memo: String) -> void:
 	cash_changed.emit(cash)
 
 
+static func _normalise(d: Dictionary) -> Dictionary:
+	## JSON has no integers or StringNames: restore cents as int and product
+	## ids as StringName so arithmetic and lookups behave exactly as before.
+	var out := {}
+	for k in d:
+		var v: Variant = d[k]
+		if k == "by_product" and v is Dictionary:
+			var bp := {}
+			for pid in v:
+				var row: Dictionary = v[pid]
+				bp[StringName(pid)] = {"units": int(row.get("units", 0)), "revenue": int(row.get("revenue", 0)),
+						"margin": int(row.get("margin", 0))}
+			out[k] = bp
+		elif k == "complaints" and v is Dictionary:
+			var c := {}
+			for ck in v:
+				c[String(ck)] = int(v[ck])
+			out[k] = c
+		elif k == "satisfaction_sum":
+			out[k] = float(v)
+		elif v is float:
+			out[k] = int(v)
+		else:
+			out[k] = v
+	return out
+
+
 func to_dict() -> Dictionary:
 	return {"cash": cash, "opening_cash": opening_cash, "report": report, "history": history,
 			"ledger_tail": ledger.slice(maxi(0, ledger.size() - 200))}
@@ -118,9 +145,18 @@ func to_dict() -> Dictionary:
 func from_dict(d: Dictionary) -> void:
 	cash = int(d.get("cash", START_CASH))
 	opening_cash = int(d.get("opening_cash", cash))
-	report = d.get("report", report)
-	history.assign(d.get("history", []))
-	ledger.assign(d.get("ledger_tail", []))
+	if d.has("report"):
+		var fresh := report.duplicate(true)
+		var loaded := _normalise(d.report)
+		fresh.merge(loaded, true)
+		report = fresh
+	history.clear()
+	for h in d.get("history", []):
+		history.append(_normalise(h))
+	ledger.clear()
+	for e in d.get("ledger_tail", []):
+		ledger.append({"day": int(e.get("day", 0)), "kind": int(e.get("kind", Kind.OTHER)),
+				"amount": int(e.get("amount", 0)), "memo": String(e.get("memo", ""))})
 	# Keep the invariant cash == sum(ledger) after a load.
 	var diff := cash - ledger_balance()
 	if diff != 0:
