@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"floor_lamp"
+display_name = "Brass Floor Lamp"
+category = "decor"
+price_cents = 6000
+upkeep_cents_per_day = 20
+description = "A warm pool of light for a cosy corner."
+footprint = Vector2i(1, 1)
+access_cells = Array[Vector2i]([])
+art = &"floor_lamp"
+height = 1.7
+icon = &"lamp"
+appeal = 4
+allow_shop = true

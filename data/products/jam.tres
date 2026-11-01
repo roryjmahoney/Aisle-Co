@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ProductDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/product_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"jam"
+display_name = "Strawberry Jam"
+brand = "Bramble Lane"
+category = "pantry"
+storage = "ambient"
+unit_cost_cents = 165
+reference_price_cents = 329
+case_size = 12
+popularity = 0.45
+price_elasticity = 1.2
+shelf_life_days = 0
+unit_size = Vector3(0.08, 0.1, 0.08)
+shape = "jar"
+color_main = Color(0.6588, 0.1569, 0.2471, 1)
+color_second = Color(0.9569, 0.9686, 0.9490, 1)
+color_accent = Color(0.8863, 0.3333, 0.2275, 1)

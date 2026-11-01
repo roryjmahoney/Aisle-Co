@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ProductDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/product_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"milk"
+display_name = "Whole Milk"
+brand = "Meadowvale"
+category = "dairy"
+storage = "chilled"
+unit_cost_cents = 95
+reference_price_cents = 199
+case_size = 12
+popularity = 0.85
+price_elasticity = 0.7
+shelf_life_days = 7
+unit_size = Vector3(0.075, 0.2, 0.075)
+shape = "carton"
+color_main = Color(0.9569, 0.9686, 0.9490, 1)
+color_second = Color(0.2431, 0.3725, 0.5412, 1)
+color_accent = Color(0.1843, 0.4784, 0.3412, 1)

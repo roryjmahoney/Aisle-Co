@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ProductDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/product_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"water"
+display_name = "Spring Water"
+brand = "Clearbrook"
+category = "drinks"
+storage = "ambient"
+unit_cost_cents = 40
+reference_price_cents = 119
+case_size = 24
+popularity = 0.9
+price_elasticity = 1.4
+shelf_life_days = 0
+unit_size = Vector3(0.07, 0.22, 0.07)
+shape = "bottle"
+color_main = Color(0.6627, 0.8471, 0.9020, 1)
+color_second = Color(0.9569, 0.9686, 0.9490, 1)
+color_accent = Color(0.2431, 0.3725, 0.5412, 1)

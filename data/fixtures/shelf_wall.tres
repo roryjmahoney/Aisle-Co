@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"shelf_wall"
+display_name = "Wall Shelving"
+category = "fixtures"
+price_cents = 18000
+description = "Four tiers of warm oak on a painted frame. Back it against a wall."
+footprint = Vector2i(3, 1)
+access_cells = Array[Vector2i]([Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)])
+slot_count = 4
+slot_storage = "ambient"
+slot_size = Vector3(1.4, 0.36, 0.42)
+slot_heights = PackedFloat32Array(0.16, 0.56, 0.96, 1.36)
+art = &"shelf_wall"
+height = 2.15
+icon = &"shelf"
+appeal = 0
+allow_shop = true

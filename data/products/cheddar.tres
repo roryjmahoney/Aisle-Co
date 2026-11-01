@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ProductDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/product_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"cheddar"
+display_name = "Aged Cheddar"
+brand = "Old Barn"
+category = "dairy"
+storage = "chilled"
+unit_cost_cents = 260
+reference_price_cents = 499
+case_size = 10
+popularity = 0.4
+price_elasticity = 1.1
+shelf_life_days = 21
+unit_size = Vector3(0.11, 0.05, 0.07)
+shape = "cheese"
+color_main = Color(0.9412, 0.7529, 0.2902, 1)
+color_second = Color(0.4549, 0.2510, 0.3725, 1)
+color_accent = Color(0.9569, 0.9686, 0.9490, 1)

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"plant"
+display_name = "Potted Monstera"
+category = "decor"
+price_cents = 3500
+description = "A generous leafy plant. Shoppers like a store that feels cared for."
+footprint = Vector2i(1, 1)
+access_cells = Array[Vector2i]([])
+art = &"plant"
+height = 1.2
+icon = &"plant"
+appeal = 3
+allow_shop = true
+allow_backroom = true

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"basket_stand"
+display_name = "Basket Stand"
+category = "decor"
+price_cents = 4500
+description = "A stack of red baskets by the door. Shoppers carry a little more."
+footprint = Vector2i(1, 1)
+access_cells = Array[Vector2i]([])
+art = &"basket_stand"
+height = 0.8
+icon = &"basket"
+appeal = 2
+allow_shop = true

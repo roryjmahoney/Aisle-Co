@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"chalkboard"
+display_name = "Chalkboard Sign"
+category = "decor"
+price_cents = 2500
+description = "Hand-lettered specials. A small touch of personality."
+footprint = Vector2i(1, 1)
+access_cells = Array[Vector2i]([])
+art = &"chalkboard"
+height = 1.1
+icon = &"sign"
+appeal = 2
+allow_shop = true

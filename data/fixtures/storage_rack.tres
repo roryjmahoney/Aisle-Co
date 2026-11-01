@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"storage_rack"
+display_name = "Stockroom Racking"
+category = "storage"
+price_cents = 14000
+description = "Heavy-duty racking for delivered cases. Holds 18 cases."
+footprint = Vector2i(3, 2)
+access_cells = Array[Vector2i]([Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2)])
+storage_cases = 18
+art = &"storage_rack"
+height = 2.2
+icon = &"rack"
+allow_shop = false
+allow_backroom = true

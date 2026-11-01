@@ -1,0 +1,5 @@
+.godot/
+export/
+build/
+*.tmp
+/screenshots/_scratch/

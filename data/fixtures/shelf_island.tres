@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"shelf_island"
+display_name = "Gondola Shelving"
+category = "fixtures"
+price_cents = 32000
+description = "A double-sided island unit. Shoppers browse from both aisles."
+footprint = Vector2i(3, 2)
+access_cells = Array[Vector2i]([Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2), Vector2i(0, -1), Vector2i(1, -1), Vector2i(2, -1)])
+slot_count = 8
+slot_storage = "ambient"
+slot_size = Vector3(1.4, 0.36, 0.42)
+slot_heights = PackedFloat32Array(0.16, 0.56, 0.96, 1.36)
+double_sided = true
+art = &"shelf_island"
+height = 1.75
+icon = &"gondola"
+allow_shop = true

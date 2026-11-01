@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="FixtureDef" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/data/fixture_def.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"checkout"
+display_name = "Checkout Counter"
+category = "fixtures"
+price_cents = 42000
+description = "Conveyor, till and card reader. Shoppers queue along the open side."
+footprint = Vector2i(3, 4)
+access_cells = Array[Vector2i]([Vector2i(3, 0), Vector2i(3, 1), Vector2i(3, 2), Vector2i(3, 3)])
+is_checkout = true
+art = &"checkout"
+height = 1.6
+icon = &"register"
+allow_shop = true
