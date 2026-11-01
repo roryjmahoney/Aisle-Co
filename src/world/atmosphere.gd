@@ -145,7 +145,7 @@ func apply_time(minute: float) -> void:
 	var night := 1.0 - clampf((sun_e - 0.15) / 0.5, 0.0, 1.0)
 	for l in night_lights:
 		if is_instance_valid(l):
-			l.light_energy = 2.4 * night
+			l.light_energy = 4.0 * night
 			l.visible = night > 0.02
 	for l in interior_lights:
 		if is_instance_valid(l):

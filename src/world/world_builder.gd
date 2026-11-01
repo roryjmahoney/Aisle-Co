@@ -143,7 +143,7 @@ func _street() -> void:
 		var zz := road.position.y + 0.65 + i * 0.5
 		k.box(Vector3(cross_x, 0.015, zz + 0.18), Vector3(2.0, 0.006, 0.32), paint, C.PAINT)
 	# Drain grate and manhole cover.
-	k.cylinder(Vector3(Lot.m(44), 0.012, cz + 1.0), 0.32, 0.006, Palette.shade(Palette.ASPHALT, -0.3), C.METAL, 18)
+	k.cylinder(Vector3(Lot.m(44), 0.012, cz + 1.0), 0.32, 0.006, Palette.shade(Palette.ASPHALT, -0.35), C.PAINT, 18)
 	k.box(Vector3(Lot.m(18), 0.012, road.position.y + 0.25), Vector3(0.5, 0.008, 0.25), Palette.STEEL_DARK, C.METAL)
 	_mi(k.build(), "RoadMarkings", null, false)
 
@@ -697,7 +697,7 @@ func _street_lamp(k: MeshKit, base: Vector3) -> void:
 	k.lathe(PackedVector2Array([Vector2(0.0, 0.18), Vector2(0.2, 0.06), Vector2(0.22, 0.0), Vector2(0.0, 0.0)]),
 			pole, C.SATIN, 16, head)
 	night_kit.cylinder(head + Vector3(0, -0.06, 0), 0.13, 0.06, Palette.LAMP_WARM, C.EMIT, 14)
-	_light(head + Vector3(0, -0.3, 0), Palette.LAMP_WARM, 2.2, 7.0, root, true)
+	_light(head + Vector3(0, -0.3, 0), Palette.LAMP_WARM, 2.2, 9.0, root, true)
 
 
 func _bench(k: MeshKit, at: Vector3) -> void:

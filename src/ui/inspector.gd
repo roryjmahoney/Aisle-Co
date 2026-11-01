@@ -63,6 +63,7 @@ func _header(title: String, icon_name: String, sub: String) -> void:
 	if sub != "":
 		var s := UIKit.label(sub, "Muted")
 		s.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		s.custom_minimum_size = Vector2(300, 0)
 		_content.add_child(s)
 
 
@@ -120,6 +121,7 @@ func _fixture(f: Fixture) -> void:
 			(q.get_child(1) as Label).text = "%d shopper%s" % [lane.queue.size(), "" if lane.queue.size() == 1 else "s"])
 		var note := UIKit.label("The owner steps in whenever shoppers queue. Hire cashiers to keep tills staffed all day.", "Muted")
 		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		note.custom_minimum_size = Vector2(300, 0)
 		_content.add_child(note)
 	if d.appeal > 0:
 		_content.add_child(UIKit.row("Atmosphere", "+%d" % d.appeal))
@@ -162,7 +164,11 @@ func _tier_row(f: Fixture, i: int) -> Control:
 		var err := Game.inventory.assign_slot(f, i, pid)
 		if err != "":
 			Game.say(err, "warning")
-			opt.select(cur)
+			# Revert to whatever the tier actually sells now.
+			for k in opt.item_count:
+				if opt.get_item_metadata(k) == f.slots[i].product:
+					opt.select(k)
+					break
 		else:
 			Sfx.play("ui_click"))
 	top.add_child(opt)
@@ -276,6 +282,7 @@ func _customer(c: Customer) -> void:
 		for t in c.thoughts:
 			var q := UIKit.label("“%s”" % t, "Body")
 			q.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			q.custom_minimum_size = Vector2(300, 0)
 			q.add_theme_color_override("font_color", UITheme.TEXT_MUTED)
 			thoughts.add_child(q))
 
@@ -304,4 +311,5 @@ func _staff(s: Staff) -> void:
 	else:
 		var note := UIKit.label("That's you. You'll work the till when shoppers queue and restock shelves in between.", "Muted")
 		note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		note.custom_minimum_size = Vector2(300, 0)
 		_content.add_child(note)

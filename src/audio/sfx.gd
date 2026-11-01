@@ -18,7 +18,10 @@ static var _last_play: Dictionary = {}
 
 
 static func init(host: Node) -> void:
+	# A new host (scene reload) owns fresh players; drop the old ones.
 	_host = host
+	_pool.clear()
+	_pool3d.clear()
 	for b in BUSES:
 		if AudioServer.get_bus_index(b) == -1:
 			AudioServer.add_bus()
@@ -58,7 +61,7 @@ static func _set_bus(name: String, v: float) -> void:
 
 
 static func play(name: String, db: float = 0.0, pitch: float = 1.0) -> void:
-	if _host == null:
+	if not is_instance_valid(_host) or _pool.is_empty() or not is_instance_valid(_pool[0]):
 		return
 	# Debounce identical sounds within 40 ms (e.g. many shoppers at once).
 	var now := Time.get_ticks_msec()
@@ -81,7 +84,7 @@ static func play(name: String, db: float = 0.0, pitch: float = 1.0) -> void:
 
 static func play_at(name: String, pos: Vector3, db: float = 0.0, pitch: float = 1.0) -> void:
 	## Positional variant for in-world events (registers, doors).
-	if _host == null or not _host.is_inside_tree():
+	if not is_instance_valid(_host) or not _host.is_inside_tree():
 		return
 	var p: AudioStreamPlayer3D = null
 	for c in _pool3d:
@@ -279,6 +282,15 @@ static func _fade_tail(buf: PackedFloat32Array) -> PackedFloat32Array:
 
 
 static func _to_wav(buf: PackedFloat32Array) -> AudioStreamWAV:
+	# Safety limiter: layered recipes can sum past full scale; scale the whole
+	# effect down rather than letting it clip.
+	var peak := 0.0
+	for v in buf:
+		peak = maxf(peak, absf(v))
+	if peak > 0.84:
+		var g := 0.84 / peak
+		for i in buf.size():
+			buf[i] *= g
 	var data := PackedByteArray()
 	data.resize(buf.size() * 2)
 	for i in buf.size():

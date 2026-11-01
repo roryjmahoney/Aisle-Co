@@ -215,8 +215,11 @@ func _on_day_report(r: Dictionary) -> void:
 	day_report.show_report(r)
 	day_report.visible = true
 	_modal_dim.visible = true
+	day_report.modulate.a = 0.0
+	# Measure after one layout pass so wrapped text has its real height.
+	await get_tree().process_frame
 	day_report.reset_size()
-	day_report.position = (get_viewport_rect().size - day_report.size) * 0.5
+	day_report.position = ((get_viewport_rect().size - day_report.size) * 0.5).round()
 	UIKit.slide_in(day_report, Vector2(0, 16), 0.28)
 	Sfx.play("day_end", -4.0)
 

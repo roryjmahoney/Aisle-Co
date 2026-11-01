@@ -72,6 +72,7 @@ func show_report(r: Dictionary) -> void:
 		for n in notes.slice(0, 5):
 			var l := UIKit.label("·  " + n, "Body")
 			l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			l.custom_minimum_size = Vector2(480, 0)
 			v.add_child(l)
 	var foot := UIKit.hbox()
 	foot.add_child(UIKit.spacer())

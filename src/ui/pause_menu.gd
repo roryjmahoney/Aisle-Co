@@ -20,14 +20,11 @@ func _ready() -> void:
 	var center := CenterContainer.new()
 	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(center)
-	var stack := Control.new()
-	center.add_child(stack)
 	_main_panel = _build_main()
 	center.add_child(_main_panel)
 	_settings_panel = _build_settings()
 	_settings_panel.visible = false
 	center.add_child(_settings_panel)
-	stack.queue_free()
 
 
 func open() -> void:
